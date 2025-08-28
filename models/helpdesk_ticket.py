@@ -11,42 +11,15 @@ class HelpdeskTicket(models.Model):
     # DEFAULT METHODS
     # ------------------------------------------------------
     @api.model
-    def create(self, vals):
-        # Crear el ticket de soporte
-        ticket = super(HelpdeskTicket, self).create(vals)
-        # Si package_names está presente, asignar invoice_number
-        if ticket.package_names:
-            ticket._assign_invoice_number()
-        else:
-            ticket.invoice_number = False  # Asegura que invoice_number esté vacío si package_names no está presente
-        return ticket
-
     def write(self, vals):
+        res = super(HelpdeskTicket, self).write(vals)
         # Si el campo package_names cambia, actualizar invoice_number
-        if 'package_names' in vals:
-            self._assign_invoice_number()
-        return super(HelpdeskTicket, self).write(vals)
-
-    def _assign_invoice_number(self):
-        # Buscar la factura vinculada al paquete
-        if self.package_names:
-            invoice = self.env['account.move'].search([
-                ('package_ids.name', '=', self.package_names)
-            ], limit=1)
-
-            # Si la factura existe, asignar el número de factura
-            if invoice and invoice.name:
-                self.invoice_number = invoice.name
-            else:
-                self.invoice_number = False  # Si no se encuentra la factura, poner en blanco o None
-                return {
-                    'warning': {
-                        'title': 'Factura no encontrada',
-                        'message': 'No existe una factura que este relacionado al paquete que ingresó.'
-                    }
-                }
-        else:
-            self.invoice_number = False
+        invoice = self.env['account.move'].search([
+            ('package_ids.name', '=', self.package_names)
+        ], limit=1)
+        if self.package_names and not invoice:
+            raise ValidationError('No existe una factura que este relacionado al paquete que ingresó.')
+        return res
     # ------------------------------------------------------
     # COMPUTE AND INVERSE METHODS
     # ------------------------------------------------------

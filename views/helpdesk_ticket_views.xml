@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="package_names"/>
-                    <field name="invoice_number" readonly="1"/>
+                    <field name="invoice_number" force_save="1" readonly="1"/>
                     <field name="client_type" readonly="1"/>
             </xpath>
         </field>
