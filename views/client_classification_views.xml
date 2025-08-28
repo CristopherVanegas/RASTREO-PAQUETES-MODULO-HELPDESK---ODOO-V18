@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Vista de lista -->
+        <record id="view_client_classification_list" model="ir.ui.view">
+            <field name="name">client.classification.list</field>
+            <field name="model">client.classification</field>
+            <field name="arch" type="xml">
+                <list string="Clasificaciones de Clientes">
+                    <field name="name"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Vista de formulario -->
+        <record id="view_client_classification_form" model="ir.ui.view">
+            <field name="name">client.classification.form</field>
+            <field name="model">client.classification</field>
+            <field name="arch" type="xml">
+                <form string="Clasificación Cliente">
+                    <sheet>
+                        <group>
+                            <field name="name" placeholder="Descripción de la Clasificación"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acción para abrir la vista de lista/form -->
+        <record id="action_client_classification" model="ir.actions.act_window">
+            <field name="name">Clasificación de Clientes</field>
+            <field name="res_model">client.classification</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- Menú padre: Tipos de Clientes -->
+        <menuitem id="menu_client_classification_parent"
+                  name="Tipos de Clientes"
+                  parent="contacts.menu_contacts"/>
+
+        <!-- Submenú: Tipos -->
+        <menuitem id="menu_client_classification"
+                  name="Tipos"
+                  parent="menu_client_classification_parent"
+                  action="action_client_classification"/>
+    </data>
+</odoo>

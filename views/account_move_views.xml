@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_move_form_inherit_packages" model="ir.ui.view">
+        <field name="name">account.move.form.inherit.packages</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="priority" eval="1" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='sale_info_group']/field[@name='delivery_date']"
+                position="after">
+                  <field name="package_names" readonly="1" placeholder="Sin paquetes detectados"/>
+                  <field name="package_ids" widget="many2many_tags" readonly="1" options="{'no_create': True}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

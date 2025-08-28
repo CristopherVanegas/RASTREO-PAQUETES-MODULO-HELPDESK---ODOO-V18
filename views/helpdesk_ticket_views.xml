@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_helpdesk_ticket_form" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.form</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form" />
+        <field name="priority" eval="1" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="package_names"/>
+                    <field name="invoice_number" readonly="1"/>
+                    <field name="client_type" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
